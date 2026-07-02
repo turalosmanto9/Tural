@@ -8,21 +8,35 @@
     <style>
       html, body { margin: 0; min-height: 100%; font-family: Arial, sans-serif; background: #fdfbf7; color: #1b2a4a; }
       .bar { position: fixed; inset: 0 0 auto 0; z-index: 2; display: flex; justify-content: flex-end; gap: 12px; padding: 12px; background: rgba(45, 106, 79, 0.94); }
-      .bar a { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid rgba(255,255,255,.45); padding: 8px 12px; border-radius: 4px; }
+      .bar a, .bar button { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid rgba(255,255,255,.45); padding: 8px 12px; border-radius: 4px; background: transparent; cursor: pointer; }
       iframe { position: fixed; inset: 54px 0 0 0; width: 100%; height: calc(100% - 54px); border: 0; background: #fff; }
       .fallback { padding: 84px 24px 24px; max-width: 720px; margin: 0 auto; }
     </style>
   </head>
   <body>
-    <div class="bar"><a href="/admin/">Admin panel</a></div>
+    <div class="bar">
+      <button type="button" onclick="window.netlifyIdentity && window.netlifyIdentity.open()">Giris</button>
+      <a href="/admin/">Admin panel</a>
+    </div>
     <iframe src="https://6a463fcb2417b62f2e32b47d--turalosman.netlify.app" title="Tural Osman sayti"></iframe>
     <noscript><div class="fallback"><h1>Tural Osman</h1><p>Sayta baxmaq ucun JavaScript aktiv olmalidir.</p><p><a href="/admin/">Admin panel</a></p></div></noscript>
     <script>
+      function hasIdentityToken() {
+        return /invite_token|recovery_token|confirmation_token|email_change_token|access_token|_token/.test(window.location.hash || '');
+      }
+
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on('init', user => {
-          if (!user && window.location.hash.includes('_token=')) window.netlifyIdentity.open();
+          if (!user && hasIdentityToken()) {
+            window.netlifyIdentity.open();
+          }
         });
-        window.netlifyIdentity.on('login', () => { window.location.href = '/admin/'; });
+        window.netlifyIdentity.on('login', () => {
+          window.location.href = '/admin/';
+        });
+        window.netlifyIdentity.on('signup', () => {
+          window.location.href = '/admin/';
+        });
       }
     </script>
   </body>
