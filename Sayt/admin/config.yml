@@ -1,0 +1,33 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: Sayt/assets/images
+public_folder: /assets/images
+
+site_url: https://turalosman.netlify.app
+display_url: https://turalosman.netlify.app
+locale: az
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: posts
+    label: Yazilar
+    label_singular: Yazi
+    folder: content/posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} - {{date}}"
+    fields:
+      - { label: Basliq, name: title, widget: string }
+      - { label: Tarix, name: date, widget: datetime }
+      - label: Kateqoriya
+        name: category
+        widget: select
+        options: [Teologiya, Felsefe, Tercume, Edebiyyat, Siyaset, Akademik]
+      - { label: Qisa xulase, name: description, widget: text, required: false }
+      - { label: Sekil, name: image, widget: image, required: false }
+      - { label: Mezmun, name: body, widget: markdown }
